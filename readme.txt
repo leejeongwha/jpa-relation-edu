@@ -40,3 +40,19 @@ http://localhost:8080/h2-console/login.jsp
 - 이것보다는 @OneToMany를 사용하자!!!
 
 10. 불변객체의 경우 Entity와 생명주기를 같이한다.
+
+11. cascade
+- 영속상태에 대한 관리기능 제공
+- cascadeType.REMOVE(조심!), cascadeType.PERSIST
+- 양방향 연관관계는 한쪽에서만 관리하는 것이 좋다.
+
+12. orphanRemoval = true 옵션은 @OneToOne 과 @OneToMany 에 제공
+
+13. Fetch 전략 
+- @ManyToOne, @OneToOne 의 디폴트 Fetch 전략이 Eager 이다. 
+- @OneToMany, @ManyToMany 의 디폴트 Fetch 전략은 Lazy 이다.
+- EAGER Fetch 전략보다 LAZY Fetch전략을 사용하는 편이 더 좋음 
+
+
+
+

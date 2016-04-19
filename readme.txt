@@ -67,6 +67,9 @@ http://localhost:8080/h2-console/login.jsp
   - Fetch(FetchMode.SUBSELECT) 사용
   
 16. 연관관계 모델링 전략
- 
+- 도메인 주도 설계
+- Aggregate으로 그룹화 한다(생명주기가 같은 것끼리, 트랜잭션 단위로)  
+- Repository 는 Aggregate Root 당 하나씩 생성한다.
+- 관계를 설정하는 기준은 비즈니스 도메인의 Command (등록/수정/삭제)에 관련된 관계를 기준으로!!(조회는 JPQL 이나 SQL을 직접 사용)
 
 

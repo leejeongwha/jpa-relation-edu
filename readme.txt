@@ -7,20 +7,17 @@ http://localhost:8080/h2-console/login.jsp
 
 
 내용
-1. 양방향은 왠만하면 만들지 않는다.
-(순환참조 오류 등이 발생할 수 있으므로)
-
-2. mappedBy가 없을 경우 매핑 테이블이 자동으로 생성됨 왜?
+1. mappedBy가 없을 경우 매핑 테이블이 자동으로 생성됨 왜?
 - 뭘로 매핑할지 모르므로
 
-3. jpa에서는 setter를 통해서 데이터를 set하지 않음
+2. jpa에서는 setter를 통해서 데이터를 set하지 않음
 - jpa에서는 final keyword를 지원하지 않음 
 
-4-1. 일대다 양방향 매핑 (insertable, updatable false로 설정 )
+3. 일대다 양방향 매핑 (insertable, updatable false로 설정 )
 연관관계의 주인은 테이블에서 FK를 가지고 있는 쪽이다.
 주인이 아닌 쪽은 읽기만 가능하다.
 
-4-2. 일대다 양방향 매핑보다 연관관계의 주인이 다 쪽에서 가지는 다대일 양방향 매핑을 권장한다.
+4. 일대다 양방향 매핑보다 연관관계의 주인이 다 쪽에서 가지는 다대일 양방향 매핑을 권장한다.
 - mappedBy를 통해서 설정하는 것이 더 유리 
 - member 쪽에서 insert 될 때 team을 모르기 때문에 update쿼리가 추가로 수행된다. 
 
@@ -45,14 +42,31 @@ http://localhost:8080/h2-console/login.jsp
 - 영속상태에 대한 관리기능 제공
 - cascadeType.REMOVE(조심!), cascadeType.PERSIST
 - 양방향 연관관계는 한쪽에서만 관리하는 것이 좋다.
-
-12. orphanRemoval = true 옵션은 @OneToOne 과 @OneToMany 에 제공
+- orphanRemoval = true 옵션은 @OneToOne 과 @OneToMany 에 제공
 
 13. Fetch 전략 
 - @ManyToOne, @OneToOne 의 디폴트 Fetch 전략이 Eager 이다. 
 - @OneToMany, @ManyToMany 의 디폴트 Fetch 전략은 Lazy 이다.
 - EAGER Fetch 전략보다 LAZY Fetch전략을 사용하는 편이 더 좋음 
 
+14. 트러블 슈팅 
+- 양방향 관계를 왠만하면 만들지 말자. 단방향 관계로도 충분히 해결 가능함.(순환참조 오류 등이 발생할 수 있으므로)
+- 무심코 CascadeType.ALL을 하지 말자
+- proxy객체에 대한 instanceof 사용 시 주의 
+- equals 및 hashCode 오버라이딩은 하는 편이 좋다.
+- equals 및 hashCode는 get메서드가 아닌 내부변수에 직접 접근하므로 getter를 통해서 호출하도록 해야 함.
+(proxy일때 문제가 됨)
+- Entity안에 컬렉션에 대한 EAGER Fetch가 2개 이상이 될 경우 문제가 될수 있으므로 왠만하면 LAZY를 써라.\
 
+15. 성능 최적화
+- optinoal = false를 사용한 InnerJoin
+- Lob타입은 엔티티로 분리한 후 @OneToOne 관계 설정 하는 편이 좋음
+- N+1 로딩 문제 (Team - Member - Locker)
+  - Fetch Join으로 해결 
+  - @BatchSize를 사용 (하이버네이트에서 제공)
+  - Fetch(FetchMode.SUBSELECT) 사용
+  
+16. 연관관계 모델링 전략
+ 
 
 
